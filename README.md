@@ -5,7 +5,7 @@ Easy Deploy is a Laravel package that simplifies deployment automation. It combi
 
 ## Prerequisites
 * Laravel 9.x or higher
-* PHP 7.3 or higher
+* PHP 7.3 or higher (Laravel 12 need to use PHP version 8.2 minimum)
 
 ## Installation
 1. Install the package via Composer
