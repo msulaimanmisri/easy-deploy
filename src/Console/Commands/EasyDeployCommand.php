@@ -47,24 +47,32 @@ class EasyDeployCommand extends Command
         $commands = config('easy-deploy.commands', []);
 
         return array_filter($commands, function ($command) {
-            return str_starts_with($command, 'composer') || str_starts_with($command, 'php artisan');
+            return str_starts_with($command, 'composer') ||
+                str_starts_with($command, 'php artisan') ||
+                str_starts_with($command, 'php ') ||
+                str_starts_with($command, 'chmod');
         });
     }
 
     /**
      * Run the process
      */
-    protected function runProcess($command) : void
+    protected function runProcess($command): void
     {
         $process = Process::fromShellCommandline($command);
         $process->setTimeout(config('easy-deploy.timeout', 300));
 
-        try {
-            $process->run();
-        } catch (ProcessFailedException $e) {
+        $process->run();
+
+        if (!$process->isSuccessful()) {
             $this->error("Command failed: {$command}");
-            $this->error($e->getMessage());
-            logger()->error("Command failed: {$command}", ['error' => $e->getMessage()]);
+            $this->error($process->getErrorOutput());
+            logger()->error("Command failed: {$command}", ['error' => $process->getErrorOutput()]);
+
+            if (!$this->confirm('Command failed. Do you want to continue with remaining commands?', false)) {
+                $this->error('Deployment aborted.');
+                exit(1);
+            }
             return;
         }
 
