@@ -18,8 +18,24 @@ Hi, I'm Sulaiman Misri. Currently I'm working as a Senior Full Stack Engineer at
 - [About the Author](#about-the-author)
 
 ## Prerequisites
-* Laravel 9.x or higher
-* PHP 7.3 or higher (Laravel 12 need to use PHP version 8.2 minimum)
+* Laravel 9.x or higher (Laravel 13 requires PHP 8.3 minimum)
+* PHP 8.1 or higher
+
+## Compatibility
+
+| Laravel | Testbench | PHP |
+| --- | --- | --- |
+| 9.x  | ^7.0  | 8.1+ |
+| 10.x | ^8.0  | 8.1+ |
+| 11.x | ^9.0  | 8.1+ |
+| 12.x | ^10.0 | 8.1+ |
+| 13.x | ^11.0 | 8.3+ |
+
+The package is tested against Laravel 12 and 13 on PHP 8.1–8.4 via a
+cross-version CI matrix (see `.github/workflows/test.yml`). The smoke test
+in `tests/Feature/LaravelVersionSmokeTest.php` runs against whichever Laravel
+version the environment resolves to, so a regression on any supported line
+fails fast.
 
 ## Installation
 1. Install the package via Composer
@@ -150,7 +166,7 @@ If tests fail in your environment:
 
 1. **Check PHP version compatibility**:
    ```bash
-   php --version  # Should be 7.3+ for Laravel 9-11, 8.2+ for Laravel 12
+    php --version  # Should be 8.1+ (8.3+ for Laravel 13)
    ```
 
 2. **Verify Composer dependencies**:
